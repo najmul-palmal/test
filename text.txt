@@ -1,3 +1,91 @@
 https://stackoverflow.com/questions/15381198/remove-credentials-from-git
 
 chnaged!
+
+
+$(function(){
+            $.ajaxSetup({
+                headers: { 'X-CSRF-TOKEN' : 'giPNjXZkW3597Ret2mjUpANRN61qQPrwlNq0HKu4' }
+            });
+            $('#SupplierAdd').submit(function(e){
+                e.preventDefault();
+                var data = $(this).serialize();
+                var id = $('#HiddenSupplierID').val();
+                var url = 'http://192.168.3.112:8080/AssetManagement/public/asset/save-category';
+                console.log(data);
+                $.ajax({
+                    url: url,
+                    method:'POST',
+                    data:data,
+                    success:function(data){
+                        //console.log(data);
+                        if(id)
+                        {
+                            swal({
+                                title: "Data Updated Successfully!",
+                                icon: "success",
+                                button: "Ok!",
+                            }).then(function (value) {
+                                if(value){
+                                    window.location.href = window.location.href.replace(/#.*$/, '');
+                                }
+                            });
+                        }
+                        else
+                        {
+                            swal({
+                                title: "Data Inserted Successfully!",
+                                icon: "success",
+                                button: "Ok!",
+                            }).then(function (value) {
+                                if(value){
+                                    window.location.href = window.location.href.replace(/#.*$/, '');
+                                }
+                            });
+                        }
+                        //window.location.href = window.location.href.replace(/#.*$/, '');
+                    },
+                    error:function(error){
+                        console.log(error);
+                        swal({
+                            title: "Data Not Saved!",
+                            text: "Something wend wrong please recheck!",
+                            icon: "error",
+                            button: "Ok!",
+                            className: "myClass",
+                        });
+                    }
+                })
+
+            })
+        })
+
+        $("#example1").on("click",
+            ".EditSupplier",
+            function () {
+                var button = $(this);
+                var id = button.attr("data-id");
+                var url = 'http://192.168.3.112:8080/AssetManagement/public/asset/edit-category';
+                //console.log(url);
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data:{id: id},
+                    success: function (data) {
+                        $('input[name=name]').val(data.name);
+                        $('input[name=id]').val(data.id);
+                        $("#GroupID option[value = '" + data.asset_group_id + "']").attr('selected', 'selected').change();
+                        },
+                    error: function(error){
+                        console.log(error);
+                        swal({
+                            title: "Data Not Saved!",
+                            text: "You clicked the button!",
+                            icon: "error",
+                            button: "Ok!",
+                            className: "myClass",
+
+                        });
+                    }
+                });
+            });
