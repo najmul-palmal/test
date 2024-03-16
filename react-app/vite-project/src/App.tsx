@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useState} from 'react';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -6,7 +6,7 @@ import './App.css'
 
 function MyButton() {
   return (
-    <button>
+    <button onClick={handleClick}>
       I'm a button
     </button>
   );
@@ -24,26 +24,23 @@ const user = {
   name : 'Hi dhaka',
 } 
 
-const products = [
-  { title: 'Cabbage', id: 1 },
-  { title: 'Garlic', id: 2 },
-  { title: 'Apple', id: 3 },
-];
 
 const food = [
-  {title: 'apple', id:1},
-  {title: 'orange', id:2},
-  {title: 'egg', id:3},
+  {title: 'apple', isFrut:true, id:1},
+  {title: 'orange', isFrut:false, id:2},
+  {title: 'egg', isFrut:true, id:3},
 ]
 
 const list = food.map(f => 
-  <li key={f.id}>
+  <li key={f.id}
+    style = {{ color: f.isFrut ? 'magenta' : 'darkgreen' }}
+  >
     {f.title}
   </li>
 
   )
 
-let content;
+let content:any ;
 let isLoggedIn = false;
 if(isLoggedIn) {
   content = <MyButton />;
@@ -51,15 +48,31 @@ if(isLoggedIn) {
   content = <MyTestButon />;
 }
 
+function handleClick() {
+  alert('You clicked me!');
+}
+
+function BothButtonClick(){
+  return(
+    <p>click this paraghraph to change data both</p>
+  )
+}
+
 function App() {
   const [count, setCount] = useState(0)
+
+  function handleBothButtonCount() {
+    setCount(count+1);
+  }
+
+
 
   return (
     <>
       <h1 className="background">Hello World!</h1>
       <h1 className="background">{content}</h1>
       <h1 className="background">{user.name}</h1>
-      <MyButton />
+      <MyButton/>
 
       <br></br>
 
@@ -79,6 +92,12 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+
+        <a>This is an angchor tag</a>
+
+        <BothButtonClick count={count} onClick={handleBothButtonCount}/>
+        <BothButtonClick count={count} onClick={handleBothButtonCount}/>
+
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
