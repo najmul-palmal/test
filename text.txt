@@ -89,3 +89,28 @@ $(function(){
                     }
                 });
             });
+
+
+
+
+
+
+CREATE VIEW view_receive_report AS
+SELECT stores.store_name, stores.id AS store_id, buyers.buyer_name, jobs.consigment AS job, styles.style_no, lots.lot AS lot_name,
+product_setups.name, product_setups.color, receive_froms.name AS receive_from_name,
+receive_masters.challan_no, receive_masters.challan_date, product_categories.name AS product_category, units.full_unit AS full_unit,
+receive_details.pkt_roll, receive_details.detail_quantity, receive_details.detail_remarks,
+receive_details.created_at, receive_details.updated_at, receive_masters.created_at AS challan_created_at,
+receive_masters.updated_at AS challan_updated_at,receive_masters.inserted_by
+FROM receive_details
+INNER JOIN receive_masters ON receive_details.receive_master_id = receive_masters.id
+INNER JOIN stores ON receive_masters.store_id = stores.id
+INNER JOIN buyers ON receive_masters.buyer_id = buyers.id
+INNER JOIN receive_froms ON receive_masters.receive_from_id = receive_froms.id
+INNER JOIN jobs ON receive_details.job_id = jobs.id
+INNER JOIN styles ON receive_details.style_id = styles.id
+INNER JOIN lots ON receive_details.lot_id = lots.id
+INNER JOIN product_setups ON receive_details.product_setup_id = product_setups.id
+INNER JOIN product_categories ON receive_details.product_category_id = product_categories.id
+INNER JOIN units ON receive_details.unit_id = units.id
+WHERE receive_details.status <> 'D' AND receive_masters.status <> 'D'
