@@ -114,3 +114,9 @@ INNER JOIN product_setups ON receive_details.product_setup_id = product_setups.i
 INNER JOIN product_categories ON receive_details.product_category_id = product_categories.id
 INNER JOIN units ON receive_details.unit_id = units.id
 WHERE receive_details.status <> 'D' AND receive_masters.status <> 'D'
+
+
+https://atymic.dev/tips/laravel-8-upserts/
+
+
+https://www.youtube.com/watch?v=yUGfWAUgQCw
